@@ -28,6 +28,11 @@ var Countdown = React.createClass({
 			}
 		}
 	},
+	//Clear the timer once the countdown page is left.
+	componentWillUnmount: function () {
+		clearInterval(this.timer);
+		this.timer = undefined;
+	},
 	//This method counts down from a given input by checking ig the count is greater than 0.
 	startTimer: function () {
 		this.timer = setInterval( () => {
@@ -35,6 +40,12 @@ var Countdown = React.createClass({
 			this.setState ({
 				count : newCount >= 0 ? newCount: 0
 			});
+
+			if (newCount === 0) {
+				this.setState({
+					countdownStatus: 'stopped'
+				});
+			}
 		}, 1000);
 	},
 	handleSetCountdown: function(seconds) {
